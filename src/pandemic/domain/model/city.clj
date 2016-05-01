@@ -5,19 +5,41 @@
   [name neighbors]
   {:name name
    :neighbors neighbors
-   :disease-cubes 0
+   :disease-cubes-count 0
    :research-station? false
    :players []})
 
-   (defn put-research-station
-     "Puts a research station in the given city"
-     ([city]
-      (assoc city :research-station? true))
-     ([game city]
-      (let [cities (:cities game)
-            new-city (put-research-station (city cities))
-            new-cities (assoc cities city new-city)]
-        (assoc game :cities new-cities))))
+(defn put-research-station
+  "Puts a research station in the given city"
+  ([city]
+   (assoc city :research-station? true))
+  ([game city]
+   (let [cities (:cities game)
+         new-city (put-research-station (city cities))
+         new-cities (assoc cities city new-city)]
+     (assoc game :cities new-cities))))
+
+(defn put-disease-cubes
+  "Puts N disease cubes in the given city"
+  [game city cubes-count]
+  (loop [game game
+         cubes-count cubes-count
+         pending-cities #{city}
+         processed-cities #{}]
+    (if (nil? pending-cities)
+      game
+      (let [city-name (first pending-cities)
+            old-city (get-in game [:cities city-name])
+            new-disease-cubes-count (+ cubes-count (:disease-cubes-count old-city))
+            new-game (assoc-in game
+                               [:cities city-name :disease-cubes-count]
+                               new-disease-cubes-count)]
+        (if (> new-disease-cubes-count 3)
+          (let [neighbors (get-in new-game [:cities city-name :neighbors])
+                new-pending-cities (into (drop 1 pending-cities) neighbors)
+                new-processed-cities (into processed-cities [city-name])]
+            (recur new-game 1 new-pending-cities new-processed-cities))
+          new-game)))))
 
 (defn initial-cities
   "Create all the cities in the board game in their initial state"

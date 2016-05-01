@@ -21,6 +21,22 @@
   {:draw-pile (shuffle player-cards)
    :discard-pile []})
 
+(defn split-in-groups
+  "Splits the given cards in groups of the same size. If there are cards
+  remaining then they are added to the first groups until there are no more
+  cards"
+  [items groups-count]
+  (let [items-per-group (quot (count items) groups-count)
+        remaining-items-count (rem (count items) groups-count)
+        items-groups (partition items-per-group items)
+        remaining-items (concat (take-last remaining-items-count items) (repeat (- groups-count remaining-items-count) nil))]
+    (map (fn [items item]
+           (if (nil? item)
+             items
+             (conj items item)))
+         items-groups
+         remaining-items)))
+
 (defn draw-cards
   "Pops N cards from the draw pile.
   Returns a vector of the form [updated game, popped cards]"
@@ -37,16 +53,9 @@
   "Introduces and shuffles N epidemic cards in the player cards"
   [game epidemic-cards-count]
   (let [draw-pile (get-in game [:player-cards :draw-pile])
-        cards-in-each-group (quot (count draw-pile) epidemic-cards-count)
-        remaining-cards-count (rem (count draw-pile) epidemic-cards-count)
-        cards-groups (partition cards-in-each-group
-                                cards-in-each-group
-                                (repeat remaining-cards-count nil)
-                                draw-pile)
-        remaining-cards (nth cards-groups remaining-cards-count)
-        cc (map (fn [cards card]
-                  (if (nil? %2)
-                    %1
-                    (conj %2 %2)))
-                cards-groups
-                remaining-cards)]))
+        cards-groups (split-in-groups draw-pile epidemic-cards-count)
+        cards-groups-with-epidemics (map #(conj % :epidemic) cards-groups)
+        shuffled-cards-groups-with-epidemics (map #(shuffle %) cards-groups-with-epidemics)
+        new-draw-pile (flatten shuffled-cards-groups-with-epidemics)
+        new-player-cards (assoc (get-in game [:player-cards]) :draw-pile new-draw-pile)]
+    (assoc game :player-cards new-player-cards)))
