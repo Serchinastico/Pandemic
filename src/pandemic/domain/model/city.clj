@@ -11,13 +11,8 @@
 
 (defn put-research-station
   "Puts a research station in the given city"
-  ([city]
-   (assoc city :research-station? true))
   ([game city]
-   (let [cities (:cities game)
-         new-city (put-research-station (city cities))
-         new-cities (assoc cities city new-city)]
-     (assoc game :cities new-cities))))
+     (assoc-in game [:cities city :research-station?] true)))
 
 (defn put-disease-cubes
   "Puts N disease cubes in the given city"

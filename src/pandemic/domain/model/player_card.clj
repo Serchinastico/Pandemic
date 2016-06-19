@@ -23,7 +23,7 @@
 
 (defn split-in-groups
   "Splits the given cards in groups of the same size. If there are cards
-  remaining then they are added to the first groups until there are no more
+  remaining then they are added to the groups until there are no more
   cards"
   [items groups-count]
   (let [items-per-group (quot (count items) groups-count)

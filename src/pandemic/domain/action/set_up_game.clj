@@ -77,13 +77,13 @@
 (defn set-up-game
   "Configures the game with the initial state"
   [game configuration]
-  (let [game-step-0 (create-players game configuration)
-        game-step-1 (deal-roles game-step-0 configuration)
-        game-step-2 (place-initial-research-station game-step-1)
-        game-step-3 (deal-player-cards game-step-2)
-        game-step-4 (shuffle-epidemic-cards game-step-3 configuration)
-        game-step-5 (put-initial-disease-cubes game-step-4)]
-  game-step-5))
+  (let [game (create-players game configuration)
+        game (deal-roles game configuration)
+        game (place-initial-research-station game)
+        game (deal-player-cards game)
+        game (shuffle-epidemic-cards game configuration)
+        game (put-initial-disease-cubes game)]
+  game))
 
 (defn create-game
   "Creates a new game already initialized"

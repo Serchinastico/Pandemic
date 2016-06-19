@@ -1,6 +1,8 @@
 (ns pandemic.domain.model.player
   (:require [pandemic.domain.model.player_card :as player_card]))
 
+(def colors [:black :blue :pink :white])
+
 (defn initial-player
   "Creates a new player"
   [name color]
