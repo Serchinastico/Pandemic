@@ -85,9 +85,7 @@
         game-step-5 (put-initial-disease-cubes game-step-4)]
   game-step-5))
 
-(def game (initial-game))
-(def player-one (player-configuration "Sergio" :pink))
-(def player-two (player-configuration "Carlos" :black))
-(def player-three (player-configuration "Pablo" :blue))
-(def player-four (player-configuration "Dani" :white))
-(def configuration (configuration [player-one player-two player-three player-four] :normal))
+(defn create-game
+  "Creates a new game already initialized"
+  [configuration]
+  (set-up-game (initial-game) configuration))

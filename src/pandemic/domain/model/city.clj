@@ -1,7 +1,7 @@
 (ns pandemic.domain.model.city)
 
 (defn initial-city
-  ""
+  "Creates an empty new state"
   [name neighbors]
   {:name name
    :neighbors neighbors
