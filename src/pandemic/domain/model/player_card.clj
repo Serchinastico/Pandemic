@@ -1,4 +1,9 @@
-(ns pandemic.domain.model.player_card)
+(ns pandemic.domain.model.player_card
+    (:require [clojure.spec :as s]))
+
+(s/def ::draw-pile (s/coll-of keyword?))
+(s/def ::discard-pile (s/coll-of keyword?))
+(s/def ::player-cards (s/keys :req [::draw-pile ::discard-pile]))
 
 (def player-cards
   [:algiers :atlanta :baghdad :bangkok

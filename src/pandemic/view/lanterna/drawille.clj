@@ -52,6 +52,8 @@
         ys (if (or (and (= min-x x1) (not= min-y y1))
                    (and (not= min-x x1) (= min-y y1)))
                (reverse steps) steps)]
+    (println (zipmap xs ys))
+    (println canvas)
     (reduce set canvas (zipmap xs ys))))
 
 (def ^:private braille-char-offset 0x2800)

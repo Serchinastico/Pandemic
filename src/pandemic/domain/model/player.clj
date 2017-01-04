@@ -1,5 +1,11 @@
 (ns pandemic.domain.model.player
-  (:require [pandemic.domain.model.player_card :as player_card]))
+  (:require [pandemic.domain.model.player_card :as player_card]
+            [clojure.spec :as s]))
+
+(s/def ::name string?)
+(s/def ::color keyword?)
+(s/def ::role keyword?)
+(s/def ::player (s/keys :req [::name ::color ::role ::player-cards]))
 
 (def colors [:black :blue :pink :white])
 

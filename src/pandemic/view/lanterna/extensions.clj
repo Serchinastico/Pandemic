@@ -1,12 +1,12 @@
 (ns pandemic.view.lanterna.extensions
   (:require [clojure.string :as str]
-            [lanterna.screen :as screen]
+            [lanterna.terminal :as terminal]
             [pandemic.view.lanterna.drawille :as drawille]))
 
 ; http://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#Clojure
 (defn line
   "Draw a line from (x1, y1) to (x2, y2) using Bresenham's algorithm"
-  [screen [x1 y1] [x2 y2]]
+  [screen [x1 y1] [x2 y2] chr]
   (let [dist-x (Math/abs (- x1 x2))
         dist-y (Math/abs (- y1 y2))
         steep (> dist-y dist-x)]
@@ -16,11 +16,11 @@
               delta-y (Math/abs (- y1 y2))
               y-step (if (< y1 y2) 1 -1)]
           (let [plot (if steep
-                         #(screen/put-string screen (int %2) (int %1) "#")
-                         #(screen/put-string screen (int %1) (int %2) "#"))]
+                         #(terminal/put-string screen (str chr) (int %2) (int %1))
+                         #(terminal/put-string screen (str chr) (int %1) (int %2)))]
             (loop [x x1
                    y y1
-                   error (Math/floor (/ delta-x 2)) ]
+                   error (Math/floor (/ delta-x 2))]
               (plot x y)
               (if (< x x2)
                 ; Rather then rebind error, test that it is less than delta-y rather than zero
@@ -30,10 +30,14 @@
 
 (defn rect
   [screen [x y] [width height]]
-  (line screen [x y] [(+ x width) y])
-  (line screen [(+ x width) y] [(+ x width) (+ y height)])
-  (line screen [(+ x width) (+ y height)] [x (+ y height)])
-  (line screen [x (+ y height)] [x y]))
+  (line screen [x y] [(+ x width) y] "━")
+  (line screen [(+ x width) y] [(+ x width) (+ y height)] "┃")
+  (line screen [(+ x width) (+ y height)] [x (+ y height)] "━")
+  (line screen [x (+ y height)] [x y] "┃")
+  (terminal/put-string screen "┏" x y)
+  (terminal/put-string screen "┓" (+ x width) y)
+  (terminal/put-string screen "┛" (+ x width) (+ y height))
+  (terminal/put-string screen "┗" x (+ y height)))
 
 (defn box
   [screen [x y] text])

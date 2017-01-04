@@ -83,7 +83,7 @@
         game (deal-player-cards game)
         game (shuffle-epidemic-cards game configuration)
         game (put-initial-disease-cubes game)]
-  game))
+   game))
 
 (defn create-game
   "Creates a new game already initialized"

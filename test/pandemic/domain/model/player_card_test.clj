@@ -4,13 +4,14 @@
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer :all]
+            [clojure.spec :as s]
             [pandemic.domain.model.player_card :refer :all]))
 
 (def tests-count 1000)
 
 (defspec split-in-groups|groups-count-is-always-the-specified
   tests-count
-  (prop/for-all [items (gen/not-empty (gen/list gen/int))
+  (prop/for-all [items (gen/not-empty (gen/generate (s/gen ::player-cards)))
                  groups-count gen/s-pos-int]
                 (= groups-count (count (split-in-groups items groups-count)))))
 
