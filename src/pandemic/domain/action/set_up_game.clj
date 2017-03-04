@@ -71,7 +71,6 @@
               city (first (:cards post-reveal-cards))
               game (:game post-reveal-cards)
               new-game (put-disease-cubes game city (first cubes-count))]
-          (println city)
           (recur (drop 1 cubes-count) new-game)))))
 
 (defn set-up-game
