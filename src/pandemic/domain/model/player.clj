@@ -15,7 +15,14 @@
   {:name name
    :color color
    :role nil
-   :player-cards []})
+   :player-cards (set [])})
+
+(defn discard-card
+  "Discards the selected card from the players hand"
+  [game player-index card-name]
+  (let [players (:players game)
+        player (get players player-index)]
+    (disj (:player-cards player) card-name)))
 
 (defn draw-cards
   "Draws n cards for the given player"

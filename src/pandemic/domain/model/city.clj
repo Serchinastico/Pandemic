@@ -12,25 +12,25 @@
 
 (defn put-research-station
   "Puts a research station in the given city"
-  [game city]
-  (assoc-in game [:cities city :research-station?] true))
+  [game city-name]
+  (assoc-in game [:cities city-name :research-station?] true))
 
 (defn put-player
   "Puts a player in the given city"
-  [game city player]
-  (assoc-in game [:cities city :players] (conj (:players city) player)))
+  [game city-name player-index]
+  (assoc-in game [:cities city-name :players] (conj (:players city) player-index)))
 
 (defn remove-player
   "Moves out a player from the given city"
-  [game city player]
-  (assoc-in game [:cities city :players] (disj (:players city) player)))
+  [game city-name player-index]
+  (assoc-in game [:cities city-name :players] (disj (:players city) player-index)))
 
 (defn put-disease-cubes
   "Puts N disease cubes in the given city"
-  [game city cubes-count]
+  [game city-name cubes-count]
   (loop [game game
          cubes-count cubes-count
-         pending-cities #{city}
+         pending-cities #{city-name}
          processed-cities #{}]
     (if (nil? pending-cities)
       game
