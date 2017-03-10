@@ -6,8 +6,8 @@
             [pandemic.view.lanterna.extensions :as ext]))
 
 (defn get-video-buffer
-  [canvas-width canvas-height buffer-width buffer-height]
   "Returns a newly created video buffer"
+  [canvas-width canvas-height buffer-width buffer-height]
   {:terminal (terminal/get-terminal :text {:cols buffer-width :rows buffer-height})
    :drawille (drawille/->canvas (* 2 buffer-width) (* 4 buffer-height))
    :buffers {:white (vec (repeat buffer-height (str/join (repeat buffer-width " "))))
@@ -44,10 +44,10 @@
    (put-char-in-string (get (color (:buffers video-buffer)) y) char x)))
 
 (defn put-string
+  "Puts the given string in the buffer at position (x, y)
+    Whitespaces are treated as non-changing characters"
   [video-buffer string x y & {:keys [color]
                               :or {color :white}}]
-  "Puts the given string in the buffer at position (x, y)
-  Whitespaces are treated as non-changing characters"
   (let [row (get (color (:buffers video-buffer)) y)
         min-col x
         max-col (dec (min (count row) (+ (count string) min-col)))]
@@ -65,9 +65,9 @@
        row)))))
 
 (defn put-strings
+  "Put a list of strings in the given coordinates as if they occupy a rectangle"
   [video-buffer strings x y & {:keys [color]
                                :or {color :white}}]
-  "Put a list of strings in the given coordinates as if they occupy a rectangle"
   (loop [video-buffer video-buffer
          strings strings
          row y]
@@ -117,8 +117,8 @@
             (terminal/put-string (:terminal video-buffer) (str char) x (- row min-row))))))))
 
 (defn flush-buffer
-  [video-buffer]
   "Prints the contents of the buffer in the terminal"
+  [video-buffer]
   (doseq [row (range (:buffer-height video-buffer))]
     (terminal/put-string (:terminal video-buffer) (str/join (repeat (:buffer-width video-buffer) " ")) 0 row))
   (doseq [color [:white :cyan :red :blue :green :yellow :default]]
