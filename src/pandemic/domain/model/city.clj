@@ -8,12 +8,22 @@
    :neighbors neighbors
    :disease-cubes-count 0
    :research-station? false
-   :players []})
+   :players (set [])})
 
 (defn put-research-station
   "Puts a research station in the given city"
-  ([game city]
-   (assoc-in game [:cities city :research-station?] true)))
+  [game city]
+  (assoc-in game [:cities city :research-station?] true))
+
+(defn put-player
+  "Puts a player in the given city"
+  [game city player]
+  (assoc-in game [:cities city :players] (conj (:players city) player)))
+
+(defn remove-player
+  "Moves out a player from the given city"
+  [game city player]
+  (assoc-in game [:cities city :players] (disj (:players city) player)))
 
 (defn put-disease-cubes
   "Puts N disease cubes in the given city"

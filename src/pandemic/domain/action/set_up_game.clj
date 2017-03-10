@@ -33,12 +33,17 @@
   [game configuration]
   (let [roles (take (count (:players configuration)) roles)]
     (assoc game :players
-          (into [] (map #(assoc %1 :role %2) (:players game) roles)))))
+           (into [] (map #(assoc %1 :role %2) (:players game) roles)))))
 
 (defn place-initial-research-station
   "Places the initial research station in Atlanta"
   [game]
   (put-research-station game :atlanta))
+
+(defn place-initial-players
+  "Places the players in their initial city, Atlanta"
+  [game]
+  (map (:players game) #(put-player game :atlanta %)))
 
 (defn deal-player-cards
   "Deal player cards to each player.
@@ -65,24 +70,25 @@
   [game]
   (loop [cubes-count '(3 3 3 2 2 2 1 1 1)
          game game]
-      (if (empty? cubes-count)
-        game
-        (let [post-reveal-cards (reveal-cards game 1)
-              city (first (:cards post-reveal-cards))
-              game (:game post-reveal-cards)
-              new-game (put-disease-cubes game city (first cubes-count))]
-          (recur (drop 1 cubes-count) new-game)))))
+    (if (empty? cubes-count)
+      game
+      (let [post-reveal-cards (reveal-cards game 1)
+            city (first (:cards post-reveal-cards))
+            game (:game post-reveal-cards)
+            new-game (put-disease-cubes game city (first cubes-count))]
+        (recur (drop 1 cubes-count) new-game)))))
 
 (defn set-up-game
   "Configures the game with the initial state"
   [game configuration]
-  (let [game (create-players game configuration)
-        game (deal-roles game configuration)
-        game (place-initial-research-station game)
-        game (deal-player-cards game)
-        game (shuffle-epidemic-cards game configuration)
-        game (put-initial-disease-cubes game)]
-   game))
+  (-> game
+      (create-players configuration)
+      (deal-roles configuration)
+      (place-initial-research-station)
+      (place-initial-players)
+      (deal-player-cards)
+      (shuffle-epidemic-cards configuration)
+      (put-initial-disease-cubes)))
 
 (defn create-game
   "Creates a new game already initialized"
