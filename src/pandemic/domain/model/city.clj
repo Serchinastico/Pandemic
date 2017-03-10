@@ -1,4 +1,13 @@
-(ns pandemic.domain.model.city)
+(ns pandemic.domain.model.city
+    (:require [clojure.spec :as s]))
+
+(s/def ::name keyword?)
+(s/def ::color keyword?)
+(s/def ::neighbors (s/coll-of ::name))
+(s/def ::disease-cubes-count int?)
+(s/def ::research-station? boolean?)
+(s/def ::players (s/coll-of int?))
+(s/def ::city (s/keys :req [::name ::color ::neighbors ::disease-cubes-count ::research-station? ::players]))
 
 (defn initial-city
   "Creates an empty new state"

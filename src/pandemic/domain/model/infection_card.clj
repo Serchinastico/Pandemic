@@ -1,4 +1,9 @@
-(ns pandemic.domain.model.infection_card)
+(ns pandemic.domain.model.infection_card
+    (:require [clojure.spec :as s]))
+
+(s/def ::draw-pile (s/coll-of keyword?))
+(s/def ::discard-pile (s/coll-of keyword?))
+(s/def ::infection-cards (s/keys :req [::draw-pile ::discard-pile]))
 
 (def infection-cards
   [:algiers :atlanta :baghdad :bangkok

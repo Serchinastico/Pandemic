@@ -1,4 +1,10 @@
-(ns pandemic.domain.model.infection_rate_track)
+(ns pandemic.domain.model.infection_rate_track
+  (:require [clojure.spec :as s]))
+
+(s/def ::current-track-index int?)
+(s/def ::infection-rate int?)
+(s/def ::track (s/keys :req [::infection-rate]))
+(s/def ::infection-rate_track (s/keys :req [::current-track-index ::track]))
 
 (defn initial-infection-rate-track
   "Creates the initial rate track"

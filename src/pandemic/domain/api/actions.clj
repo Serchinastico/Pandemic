@@ -11,7 +11,7 @@
   "Returns the city where the player is located"
   [game player-index]
   (:name (some #(contains? (:players %) player-index)
-          (:cities game))))
+               (:cities game))))
 
 (defn drive/ferry
   "Moves a player to an adjacent city"
@@ -58,6 +58,7 @@
         (remove-player from player-index)
         (put-player to player-index))))
 
+; TODO When there are already 6 stations we should return an error to notify the user
 (defn build-research-station
   "Creates a research station in the city where the player is located"
   [game player-index]

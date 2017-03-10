@@ -1,4 +1,8 @@
-(ns pandemic.domain.model.cure)
+(ns pandemic.domain.model.cure
+    (:require [clojure.spec :as s]))
+
+(s/def ::discovered? boolean?)
+(s/def ::eradicated? boolean?)
 
 (defn initial-cure
   "Creates a new cure"

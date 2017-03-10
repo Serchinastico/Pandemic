@@ -1,5 +1,5 @@
 (ns pandemic.domain.model.player_card
-    (:require [clojure.spec :as s]))
+  (:require [clojure.spec :as s]))
 
 (s/def ::draw-pile (s/coll-of keyword?))
 (s/def ::discard-pile (s/coll-of keyword?))
