@@ -1,4 +1,4 @@
-(ns pandemic.domain.action.set_up_game
+(ns pandemic.domain.api.set_up_game
   (:require [pandemic.domain.model.city :refer :all]
             [pandemic.domain.model.cure :refer :all]
             [pandemic.domain.model.game :refer :all]
@@ -43,7 +43,7 @@
 (defn place-initial-players
   "Places the players in their initial city, Atlanta"
   [game]
-  (map (:players game) #(put-player game :atlanta %)))
+  (reduce #(put-player %1 :atlanta %2) game (:players game)))
 
 (defn deal-player-cards
   "Deal player cards to each player.

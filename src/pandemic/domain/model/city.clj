@@ -27,12 +27,12 @@
 (defn put-player
   "Puts a player in the given city"
   [game city-name player-index]
-  (assoc-in game [:cities city-name :players] (conj (:players city) player-index)))
+  (assoc-in game [:cities city-name :players] (conj (:players city-name) player-index)))
 
 (defn remove-player
   "Moves out a player from the given city"
   [game city-name player-index]
-  (assoc-in game [:cities city-name :players] (disj (:players city) player-index)))
+  (assoc-in game [:cities city-name :players] (disj (:players city-name) player-index)))
 
 (defn put-disease-cubes
   "Puts N disease cubes in the given city"

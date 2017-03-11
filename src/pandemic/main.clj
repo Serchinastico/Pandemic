@@ -1,5 +1,5 @@
 (ns pandemic.main
-  (:require [pandemic.domain.action.set_up_game :refer :all]
+  (:require [pandemic.domain.api.set_up_game :refer :all]
             [pandemic.view.game_view :refer :all])
   (:gen-class))
 

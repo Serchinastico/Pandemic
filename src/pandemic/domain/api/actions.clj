@@ -1,4 +1,4 @@
-(ns pandemic.domain.action.move_player
+(ns pandemic.domain.api.move_player
   (:require [pandemic.domain.model.city :refer :all]
             [pandemic.domain.model.player :refer :all]))
 
