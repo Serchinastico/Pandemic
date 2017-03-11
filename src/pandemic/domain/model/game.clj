@@ -6,7 +6,17 @@
             [pandemic.domain.model.player :refer [initial-player]]
             [pandemic.domain.model.player_card :refer :all]
             [pandemic.domain.model.role :refer :all]
-            [pandemic.domain.model.turn :refer :all]))
+            [pandemic.domain.model.turn :refer :all]
+            [clojure.spec :as s]))
+
+(s/def ::game (s/keys :req [::cities
+                            ::players
+                            ::cures
+                            ::infection-cards
+                            ::player-cards
+                            ::outbreak-indicator
+                            ::infection_rate_track
+                            ::turn]))
 
 (defn initial-game
   "Creates a new game"
