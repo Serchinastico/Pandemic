@@ -8,8 +8,13 @@
 
 (def phases [:player-actions :card-drawing :cities-infection])
 
-(defn take-action
-  "Performs a user action"
+(defn can-take-next-action
+  "Returns whether the current player can take another action"
+  [game]
+  (< (get-in game [:turn :actions-performed]) 4))
+
+(defn next-action
+  "Updates the turn when a user has taken an action"
   [game]
   (update-in game [:turn :actions-performed] inc))
 
